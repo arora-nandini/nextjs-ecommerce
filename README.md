@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛍️ Next.js E-Commerce (with MongoDB + Tailwind CSS)
 
-## Getting Started
+A full-stack e-commerce web app built using **Next.js 14 (App Router)**, **MongoDB (Mongoose)**, and **Tailwind CSS**.  
+This project demonstrates multiple rendering strategies — **SSG**, **SSR**, **ISR**, and **CSR** — all in one modern app.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## ⚙️ Tech Stack
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+| Layer | Technology |
+|--------|-------------|
+| Frontend | **Next.js 14 (App Router)** |
+| Styling | **Tailwind CSS** |
+| Backend | **Next.js API Routes** |
+| Database | **MongoDB (via Mongoose)** |
+| Deployment | **Vercel** (Frontend + API) |
+| Package Manager | **npm** |
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## ✨ Features
 
-## Learn More
+✅ Product Listing (SSG)  
+✅ Product Detail Page (ISR)  
+✅ Admin Panel for Add/Edit (CSR)  
+✅ Inventory Dashboard (SSR)  
+✅ MongoDB Integration with Mongoose  
+✅ Secure `.env` configuration  
+✅ Responsive UI using Tailwind CSS  
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🗂️ Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+nextjs-ecommerce/
+├── app/
+│ ├── layout.js
+│ ├── page.js
+│ ├── products/[slug]/page.js
+│ ├── dashboard/page.js
+│ ├── admin/page.js
+│ └── api/products/
+│ ├── route.js
+│ └── [slug]/route.js
+├── components/
+│ ├── Navbar.jsx
+│ ├── ProductCard.jsx
+│ └── ProductForm.jsx
+├── lib/
+│ ├── db.js
+│ └── models/Product.js
+├── public/
+│ └── sample.jpg
+├── .env.example
+├── package.json
+└── tailwind.config.js
