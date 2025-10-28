@@ -1,0 +1,14 @@
+# Node modules
+node_modules
+
+# Next.js build
+.next
+/out
+
+# Environment files
+.env*
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
