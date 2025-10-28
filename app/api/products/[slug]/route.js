@@ -1,26 +1,30 @@
 import { connectDB } from "@/lib/db";
 import Product from "@/lib/models/Product";
+import { notFound } from "next/navigation";
 
-export async function GET(_, context) {
-  const { params } = await context; // ✅ await required
+export const revalidate = 60; // ISR: rebuild every 60 seconds
+
+export default async function ProductDetail({ params }) {
   await connectDB();
-  const product = await Product.findOne({ slug: params.slug });
-  if (!product) return new Response("Not Found", { status: 404 });
-  return Response.json(product);
-}
 
-export async function PUT(req, context) {
-  const { params } = await context;
-  await connectDB();
-  const adminKey = req.headers.get("x-admin-key");
-  if (adminKey !== process.env.ADMIN_KEY)
-    return new Response("Unauthorized", { status: 401 });
+  // Use try/catch to handle missing data gracefully
+  try {
+    const product = await Product.findOne({ slug: params.slug }).lean();
+    if (!product) return notFound();
 
-  const body = await req.json();
-  const updated = await Product.findOneAndUpdate(
-    { slug: params.slug },
-    body,
-    { new: true }
-  );
-  return Response.json(updated);
+    return (
+      <div className="p-6">
+        <h1 className="text-3xl font-semibold">{product.name}</h1>
+        <p className="mt-2">{product.description}</p>
+        <p className="font-bold mt-4">${product.price}</p>
+      </div>
+    );
+  } catch (err) {
+    console.error("Error fetching product:", err);
+    return (
+      <div className="p-6 text-red-600">
+        <h2>Product not found or failed to load.</h2>
+      </div>
+    );
+  }
 }

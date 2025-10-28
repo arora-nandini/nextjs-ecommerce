@@ -1,34 +1,31 @@
+export const dynamic = "force-dynamic";
+
 import { connectDB } from "@/lib/db";
 import Product from "@/lib/models/Product";
-import Link from "next/link";
+import { notFound } from "next/navigation";
 
-export const revalidate = 60;
-
-export async function generateStaticParams() {
-  await connectDB();
-  const products = await Product.find({}, "slug");
-  return products.map((p) => ({ slug: p.slug }));
-}
+export const revalidate = 60; // optional ISR
 
 export default async function ProductDetail({ params }) {
   await connectDB();
-  const product = await Product.findOne({ slug: params.slug });
 
-  if (!product)
+  try {
+    const product = await Product.findOne({ slug: params.slug }).lean();
+    if (!product) return notFound();
+
     return (
-      <div className="p-6 text-red-500">
-        Product not found. <Link href="/">Go back</Link>
+      <div className="p-6">
+        <h1 className="text-3xl font-semibold">{product.name}</h1>
+        <p className="mt-2">{product.description}</p>
+        <p className="font-bold mt-4">${product.price}</p>
       </div>
     );
-
-  return (
-    <div className="p-6">
-      <Link href="/" className="text-blue-600 underline">
-        ← Back to Home
-      </Link>
-      <h1 className="text-3xl font-semibold mt-4">{product.name}</h1>
-      <p>{product.description}</p>
-      <p className="font-bold mt-2">${product.price}</p>
-    </div>
-  );
+  } catch (err) {
+    console.error("Error fetching product:", err);
+    return (
+      <div className="p-6 text-red-600">
+        <h2>Product not found or failed to load.</h2>
+      </div>
+    );
+  }
 }
