@@ -1,19 +1,21 @@
+// app/api/products/route.js
+export const dynamic = "force-dynamic";
+
 import { connectDB } from "@/lib/db";
 import Product from "@/lib/models/Product";
 
+// GET all products
 export async function GET() {
   await connectDB();
-  const products = await Product.find();
+  const products = await Product.find({});
   return Response.json(products);
 }
 
+// POST a new product
 export async function POST(req) {
   await connectDB();
-  const data = await req.json();
-  const adminKey = req.headers.get("x-admin-key");
-  if (adminKey !== process.env.ADMIN_KEY)
-    return new Response("Unauthorized", { status: 401 });
 
-  const product = await Product.create(data);
+  const body = await req.json();
+  const product = await Product.create(body);
   return Response.json(product);
 }

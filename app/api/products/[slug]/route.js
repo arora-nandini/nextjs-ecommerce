@@ -1,6 +1,7 @@
 import { connectDB } from "@/lib/db";
 import Product from "@/lib/models/Product";
 import { notFound } from "next/navigation";
+export const dynamic = "force-dynamic";
 
 export const revalidate = 60; // ISR: rebuild every 60 seconds
 
